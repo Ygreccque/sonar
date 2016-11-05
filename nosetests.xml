@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="nosetests" tests="3" errors="0" failures="2" skip="0"><testcase classname="app.test_app.TestApp" name="test_app1" time="0.000"><failure type="exceptions.AssertionError" message="5 != 4"><![CDATA[Traceback (most recent call last):
+  File "/usr/lib64/python2.7/unittest/case.py", line 369, in run
+    testMethod()
+  File "/app/app/test_app.py", line 10, in test_app1
+    self.assertEqual(5, f.test1(2,2))
+  File "/usr/lib64/python2.7/unittest/case.py", line 553, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "/usr/lib64/python2.7/unittest/case.py", line 546, in _baseAssertEqual
+    raise self.failureException(msg)
+AssertionError: 5 != 4
+]]></failure></testcase><testcase classname="app.test_app.TestApp" name="test_app2" time="0.000"><failure type="exceptions.AssertionError" message="1 != 0"><![CDATA[Traceback (most recent call last):
+  File "/usr/lib64/python2.7/unittest/case.py", line 369, in run
+    testMethod()
+  File "/app/app/test_app.py", line 14, in test_app2
+    self.assertEqual(1, f.test2(2,2))
+  File "/usr/lib64/python2.7/unittest/case.py", line 553, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "/usr/lib64/python2.7/unittest/case.py", line 546, in _baseAssertEqual
+    raise self.failureException(msg)
+AssertionError: 1 != 0
+]]></failure></testcase><testcase classname="app.test_app.TestApp" name="test_app3" time="0.000"></testcase></testsuite>

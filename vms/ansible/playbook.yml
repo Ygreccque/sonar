@@ -1,0 +1,26 @@
+---
+- name: Configure Sonar
+  hosts: sonar
+  become: yes
+  remote_user: root
+  roles:
+    - v0rts.java
+    - v0rts.mysql
+    - v0rts.sonar
+ 
+
+- name: Configure Jenkins
+  hosts: jenkins
+  become: yes
+  remote_user: root
+  roles:
+    - courtlandj.jenkins
+ 
+
+- name: Configure nexus
+  hosts: nexus
+  become: yes
+  remote_user: root
+  roles:
+    - v0rts.java
+    - hullufred.nexus

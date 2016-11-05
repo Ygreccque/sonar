@@ -1,0 +1,8 @@
+[jenkins]
+jenkins-server ansible_host=192.168.50.100
+
+[sonar]
+sonar-server ansible_host=192.168.50.102
+
+[nexus]
+nexus-server ansible_host=192.168.50.101

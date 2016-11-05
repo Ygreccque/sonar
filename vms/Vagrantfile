@@ -1,0 +1,114 @@
+VAGRANTFILE_API_VERSION = "2"
+ 
+ 
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+   
+    # This will create the VM for jenkins-server
+    config.vm.define :jenkins do |jen|
+        
+        jen.vm.box = "nexus-box"
+        jen.vm.hostname = "jenkins-server"
+        jen.vm.network "private_network", ip: "192.168.50.100"
+        jen.vm.synced_folder ".", "/home/vagrant/sync", disable: true
+        jen.ssh.forward_agent = true
+        jen.ssh.insert_key = false
+        jen.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+        #jen.vm.synced_folder ".", "/app", type: "nfs"
+
+        jen.vm.provider "virtualbox" do |vb|
+          vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
+          vb.memory = "1024"
+          vb.name = "jenkins-server"
+        end
+
+
+        jen.vm.provision "ansible" do |ansible|
+        ansible.playbook = "ansible/playbook.yml"
+        ansible.inventory_path = "ansible/hosts"
+        ansible.limit = "jenkins-server"
+      end
+    end
+    
+    # This will create the VM for nexus-server
+    config.vm.define :nexus do |nxs|
+ 
+        nxs.vm.box = "centos/7"
+        nxs.vm.hostname = "nexus-server"
+        nxs.vm.network "private_network", ip: "192.168.50.101"
+        nxs.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
+        nxs.ssh.forward_agent = true
+        nxs.ssh.insert_key = false
+        nxs.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key" ]
+     
+
+
+        nxs.vm.provider "
+        " do |vb|
+          vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
+          vb.name = "nexus-server"
+        end
+
+        nxs.vm.provision "ansible" do |ansible|
+        ansible.playbook = "ansible/playbook.yml"
+        ansible.inventory_path = "ansible/hosts"
+        ansible.limit = "nexus-server"
+      end
+    end
+ 
+    # This will create the VM for the sonar server
+    config.vm.define :sonar do |snr|
+ 
+        snr.vm.box = "centos/7"
+        snr.vm.hostname = "sonar-server"
+        snr.vm.network "private_network", ip: "192.168.50.102"
+        snr.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
+        snr.ssh.forward_agent = true
+        snr.ssh.insert_key = false
+        #snr.vm.synced_folder "flask_app", "/app", type: "nfs"
+        snr.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key" ]
+        #snr.vm.synced_folder ".", "/app", type: "nfs"
+
+        snr.vm.provider "virtualbox" do |vb|
+          vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
+          vb.name = "sonar-server"
+        end
+
+        snr.vm.provision "ansible" do |ansible|
+        ansible.playbook = "ansible/playbook.yml"
+        ansible.inventory_path = "ansible/hosts"
+        ansible.limit = "sonar-server"
+      end
+    end
+
+
+
+    config.vm.define :gitlab do |gitlb|
+
+    gitlb.vm.boot_timeout = 300
+    gitlb.vm.hostname = "gitlab-sever"
+
+    gitlb.vm.provider "virtualbox" do |vb|
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
+        vb.memory = "1024"
+        vb.name = "gitlab-server"
+    end
+
+    gitlb.vm.box = "ubuntu/trusty64"
+
+    gitlb.vm.network "private_network", ip: "192.168.50.103"
+
+    gitlb.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
+
+    gitlb.ssh.forward_agent = true
+    gitlb.ssh.insert_key = false
+    gitlb.ssh.private_key_path = [ "~/.ssh/id_rsa", "~/.vagrant.d/insecure_private_key" ]
+    gitlb.vm.provision "shell", path: "install.sh"
+    #config.vm.provision "ansible" do |ansible|
+        #ansible.playbook = "ansible/playbook.yml"
+    #end
+
+end
+end
+
+#sudo /etc/init.d/nexus status
+#sudo tail -f -n 100 /usr/share/nexus-2.14.1-01/logs/wrapper.log

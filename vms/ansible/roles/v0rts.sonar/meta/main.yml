@@ -1,0 +1,24 @@
+---
+dependencies:
+  - v0rts.java
+  - v0rts.mysql
+
+galaxy_info:
+  author: v0rts
+  description: SonarQube
+  company: "GetIT Solutions, LLC"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.0
+  platforms:
+    - name: EL
+      versions:
+      - 7
+    - name: Fedora
+      versions:
+      - 24
+    - name: Ubuntu
+      versions:
+      - Xenial Xerus
+  galaxy_tags:
+    - development
+    - monitoring
