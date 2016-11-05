@@ -24,3 +24,10 @@
   roles:
     - v0rts.java
     - hullufred.nexus
+
+- name: Configure Gitlab
+  hosts: gitlab
+  become: yes
+  remote_user: root
+  roles:
+    - samdoran.gitlab

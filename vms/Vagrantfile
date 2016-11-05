@@ -102,10 +102,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     gitlb.ssh.forward_agent = true
     gitlb.ssh.insert_key = false
     gitlb.ssh.private_key_path = [ "~/.ssh/id_rsa", "~/.vagrant.d/insecure_private_key" ]
-    gitlb.vm.provision "shell", path: "install.sh"
-    #config.vm.provision "ansible" do |ansible|
-        #ansible.playbook = "ansible/playbook.yml"
-    #end
+    
+    gitlb.vm.provision "ansible" do |ansible|
+        ansible.playbook = "ansible/playbook.yml"
+        ansible.inventory_path = "ansible/hosts"
+        ansible.limit = "gitlab-server"
+      end
 
 end
 end

@@ -6,3 +6,6 @@ sonar-server ansible_host=192.168.50.102
 
 [nexus]
 nexus-server ansible_host=192.168.50.101
+
+[gitlab]
+gitlab-server ansible_host=192.168.50.103
